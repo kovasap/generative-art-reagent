@@ -1,0 +1,16 @@
+{:source-paths ["src"]
+ :dependencies [[binaryage/devtools "1.0.3"]
+                [nrepl "0.8.3"]
+                [cljs-http "0.1.46"]
+                [sablono "0.8.6"]
+                [quil "3.1.0"]
+                [com.andrewmcveigh/cljs-time "0.5.2"]
+                [reagent "1.1.0"]]
+ :builds       {:app {:target     :browser
+                      :output-dir "public/js"
+                      :asset-path "/js"
+                      :modules    {:app {:entries [generative-art.core]}}
+                      :devtools   {:after-load generative-art.core/mount-root}}}
+
+ :dev-http     {3000 {:root    "public"
+                      :handler user/app}}}
