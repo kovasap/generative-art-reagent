@@ -89,20 +89,20 @@
            :min 0
            :max 255
            :style {:width "100%"}
-           :on-change (fn [e]
-                        (let [new-value (.. e -target -value)]
-                          (reset! background-color (int new-value))))}])
+           :on-change #(let [new-value (.. % -target -value)]
+                         (reset! background-color (int new-value)))}])
 
 (defn home-page []
-  (r/with-let [running? (r/atom false)]
-    [:div
-     [:h3 "circles demo"]
-     [background-color-slider @background-color]
-     [:div>button
-      {:on-click #(swap! running? not)}
-      (if @running? "stop" "start")]
-     (when @running?
-       [canvas])]))
+  (let [running? (r/atom false)]
+    (fn []
+      [:div
+       [:h3 "circles demo"]
+       [background-color-slider @background-color]
+       [:div>button
+        {:on-click #(swap! running? not)}
+        (if @running? "stop" "start")]
+       (when @running?
+         [canvas])])))
 
 (defn mount-root []
   (d/render [home-page] (.getElementById js/document "app")))
